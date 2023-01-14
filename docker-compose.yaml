@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 #https://github.com/compose-spec/compose-spec/blob/master/spec.md#using-extensions-as-fragments
 x-logging: &default-logging
   options:
@@ -257,7 +257,7 @@ services:
       - BASIC_AUTH_PROXY_TIMEOUT=${BASIC_AUTH_PROXY_TIMEOUT}
     networks:
       - airbyte_internal
-      - airbyte_public
+      - datanet
     depends_on:
       - webapp
       - server
@@ -272,5 +272,8 @@ volumes:
   db:
     name: ${DB_DOCKER_MOUNT}
 networks:
-  airbyte_public:
+  datanet:                               
+    driver: bridge                       
+    driver_opts:                         
+      com.docker.network.driver.mtu: 1454
   airbyte_internal:
